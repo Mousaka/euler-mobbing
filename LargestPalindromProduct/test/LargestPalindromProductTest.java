@@ -1,23 +1,17 @@
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class LargestPalindromProductTest {
-
    @Test
-   public void testLarge(){
-      LargestPalindromProduct.largestPalindromeProduct(3);
+   public void start() throws Exception {
+      System.out.println(LargestPalindromProduct.start());
    }
 
    @Test
    public void testIsPalindrom(){
       assertTrue(LargestPalindromProduct.isPalindrome(11));
       assertFalse(LargestPalindromProduct.isPalindrome(10));
-   }
-
-   @Test
-   public void isProductOfTwoFactors(){
-      assertTrue(LargestPalindromProduct.isProductOfTwoFactors(2*3*4,3));
-      assertFalse(LargestPalindromProduct.isProductOfTwoFactors(13,3));
    }
 }
