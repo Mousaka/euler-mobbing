@@ -1,64 +1,49 @@
-enum Direction {
-   RIGHT,
-   DOWN
-}
-
 class Lattice {
-   private int counter = 0;
+   private final int gridSize;
 
-   //TODO: Fix this. Gives wrong answer too slow
+   Lattice(final int gridSize) {
+      this.gridSize = gridSize + 1;
+   }
+
    int start() {
-      path(new PathWalker());
-      return counter;
+      final Point[][] grid = new Point[gridSize][gridSize];
+      grid[0] = firstRow(gridSize);
+      for (int y = 1; y < gridSize; y++) {
+         grid[y][0] = new Point(0, grid[y - 1][0].paths());
+         for (int x = 1; x < gridSize; x++) {
+            grid[y][x] = new Point(grid[y][x - 1].paths(), grid[y - 1][x].paths());
+         }
+      }
+      return grid[gridSize - 1][gridSize - 1].paths();
    }
 
-   private void path(final PathWalker walker) {
-      if (walker.finish()) {
-         return;
+   private Point[] firstRow(final int gridSize) {
+      final Point[] row = new Point[gridSize];
+      row[0] = Point.startPoint();
+      for (int i = 1; i < gridSize; i++) {
+         row[i] = new Point(row[i - 1].paths(), 0);
       }
-      if (walker.okMove(Direction.RIGHT)) {
-         counter++;
-         path(walker.move(Direction.RIGHT));
-      }
-      if (walker.okMove(Direction.DOWN)) {
-         counter++;
-         path(walker.move(Direction.DOWN));
-      }
-   }
-
-   private class PathWalker {
-      final int x;
-      final int y;
-
-      PathWalker() {
-         this(1, 1);
-      }
-
-      private PathWalker(final int x, final int y) {
-         this.x = x;
-         this.y = y;
-         //System.out.println("x:"+x+" y:"+y);
-      }
-
-      public PathWalker clone(final PathWalker pathWalker) {
-         return new PathWalker(pathWalker.x, pathWalker.y);
-      }
-
-      boolean finish() {
-         return this.x == 20 && this.y == 20;
-      }
-
-      PathWalker move(final Direction direction) {
-         return direction == Direction.RIGHT ? new PathWalker(x + 1, y) : new PathWalker(x, y + 1);
-      }
-
-      public boolean illegalPosition() {
-
-         return x > 20 || y > 20;
-      }
-
-      boolean okMove(final Direction direction) {
-         return (direction == Direction.RIGHT && x < 20) || (direction == Direction.DOWN && y < 20);
-      }
+      return row;
    }
 }
+
+class Point {
+   final private int paths;
+
+   private Point(final int paths) {
+      this.paths = paths;
+   }
+
+   Point(final int left, final int above) {
+      this.paths = left + above;
+   }
+
+   static Point startPoint() {
+      return new Point(1);
+   }
+
+   int paths() {
+      return paths;
+   }
+}
+
