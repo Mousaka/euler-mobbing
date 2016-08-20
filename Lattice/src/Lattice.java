@@ -5,7 +5,7 @@ class Lattice {
       this.gridSize = gridSize + 1;
    }
 
-   int start() {
+   long start() {
       final Point[][] grid = new Point[gridSize][gridSize];
       grid[0] = firstRow(gridSize);
       for (int y = 1; y < gridSize; y++) {
@@ -28,13 +28,13 @@ class Lattice {
 }
 
 class Point {
-   final private int paths;
+   final private long paths;
 
-   private Point(final int paths) {
+   private Point(final long paths) {
       this.paths = paths;
    }
 
-   Point(final int left, final int above) {
+   Point(final long left, final long above) {
       this.paths = left + above;
    }
 
@@ -42,7 +42,7 @@ class Point {
       return new Point(1);
    }
 
-   int paths() {
+   long paths() {
       return paths;
    }
 }

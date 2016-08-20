@@ -17,4 +17,16 @@ public class LatticeTest {
    public void fourGrid() throws Exception {
       assertEquals(70, new Lattice(4).start());
    }
+
+   @Test
+   public void fiveGrid() {
+      assertEquals(252, new Lattice(5).start());
+   }
+
+   @Test
+   public void twentyGrid() throws Exception {
+      final long paths = new Lattice(20).start();
+      System.out.print(paths);
+      assertEquals(137846528820L, paths);
+   }
 }
